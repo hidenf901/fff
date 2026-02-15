@@ -5,249 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lk-90 - Регистрация</title>
     <style>
-        :root {
-            --primary: #1a2a6c;
-            --secondary: #b21f1f;
-            --accent: #fdbb2d;
-            --bg-color: #f5f7fa;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --border-color: #e1e5eb;
-        }
-
-        .dark-theme {
-            --primary: #2d3b8f;
-            --secondary: #c92c2c;
-            --accent: #ffcc44;
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --text-color: #e6e6e6;
-            --border-color: #2d4059;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', sans-serif;
         }
-        
         body {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: var(--text-color);
         }
-        
         .container {
             width: 100%;
-            max-width: 500px;
-            background-color: var(--card-bg);
+            max-width: 400px;
+            background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        
         .header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
-            position: relative;
         }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .form-container {
+        .form {
             padding: 30px;
         }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-        
-        .input-group input {
+        input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--border-color);
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e1e5eb;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
-            background-color: var(--card-bg);
-            color: var(--text-color);
         }
-        
-        .input-group input:focus {
-            border-color: var(--primary);
+        input:focus {
+            border-color: #1a2a6c;
             outline: none;
         }
-        
-        .btn {
-            display: block;
+        button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
-        
-        .btn:hover {
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .btn-stop {
+        .back-btn {
             background: linear-gradient(to right, #e74c3c, #c0392b);
         }
-        
-        .error-message {
-            color: #e74c3c;
+        .message {
             text-align: center;
-            margin-top: 15px;
-            font-weight: 500;
+            margin-top: 10px;
             display: none;
         }
-        
-        .success-message {
-            color: #27ae60;
-            text-align: center;
-            margin-top: 15px;
-            font-weight: 500;
-            display: none;
-        }
+        .error { color: #e74c3c; }
+        .success { color: #27ae60; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>lk-90</h1>
-            <p>Регистрация нового пользователя</p>
-            <button class="theme-toggle" id="themeToggle" title="Сменить тему">🌙</button>
+            <p>Регистрация</p>
         </div>
-        
-        <div class="form-container">
-            <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Регистрация</h2>
-            <div class="input-group">
-                <label for="regUsername">Логин</label>
-                <input type="text" id="regUsername" placeholder="Придумайте логин">
-            </div>
-            <div class="input-group">
-                <label for="regPassword">Пароль</label>
-                <input type="password" id="regPassword" placeholder="Придумайте пароль">
-            </div>
-            <div class="input-group">
-                <label for="regBirthday">Дата рождения</label>
-                <input type="text" id="regBirthday" placeholder="ДД.ММ.ГГГГ">
-            </div>
-            <button class="btn" onclick="registerUser()">Зарегистрироваться</button>
-            <button class="btn btn-stop" onclick="window.location.href='index.html'">Назад к входу</button>
-            <div id="errorMessage" class="error-message"></div>
-            <div id="successMessage" class="success-message"></div>
+        <div class="form">
+            <h2 style="text-align: center; margin-bottom: 20px;">Новый аккаунт</h2>
+            <input type="text" id="username" placeholder="Логин">
+            <input type="password" id="password" placeholder="Пароль">
+            <input type="text" id="birthday" placeholder="Дата рождения (ДД.ММ.ГГГГ)">
+            <button onclick="register()">Зарегистрироваться</button>
+            <button class="back-btn" onclick="window.location.href='index.html'">Назад</button>
+            <div id="message" class="message"></div>
         </div>
     </div>
 
     <script>
-        function registerUser() {
-            const username = document.getElementById('regUsername').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const birthday = document.getElementById('regBirthday').value.trim();
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
+        function register() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const birthday = document.getElementById('birthday').value.trim();
+            const message = document.getElementById('message');
             
             if (!username || !password || !birthday) {
-                errorMessage.textContent = 'Все поля обязательны для заполнения!';
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
+                message.className = 'message error';
+                message.textContent = 'Заполните все поля!';
+                message.style.display = 'block';
                 return;
             }
             
-            // Загружаем существующих пользователей
-            let users = JSON.parse(localStorage.getItem('users')) || {};
+            let users = JSON.parse(localStorage.getItem('users'));
             
             if (users[username]) {
-                errorMessage.textContent = 'Пользователь с таким логином уже существует!';
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
+                message.className = 'message error';
+                message.textContent = 'Логин уже существует!';
+                message.style.display = 'block';
                 return;
             }
             
-            // Создаем нового пользователя
             users[username] = {
                 password: password,
                 role: 'Ученик',
                 birthday: birthday,
                 regDate: new Date().toLocaleDateString('ru-RU'),
-                rank: Object.keys(users).length + 1,
-                completedTasks: 0,
                 stars: 0,
                 badge: 'student-badge',
                 badgeText: 'УЧЕНИК'
             };
             
-            // Сохраняем в localStorage
             localStorage.setItem('users', JSON.stringify(users));
             
-            errorMessage.style.display = 'none';
-            successMessage.textContent = `Пользователь ${username} успешно зарегистрирован!`;
-            successMessage.style.display = 'block';
+            message.className = 'message success';
+            message.textContent = 'Регистрация успешна! Переход на вход...';
+            message.style.display = 'block';
             
-            // Очищаем поля
-            document.getElementById('regUsername').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regBirthday').value = '';
-            
-            // Перенаправляем на страницу входа через 2 секунды
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 2000);
         }
-
-        // Переключение темы
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-theme');
-            this.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
-        });
     </script>
 </body>
 </html>
