@@ -156,12 +156,6 @@
             font-weight: 500;
             display: none;
         }
-        
-        .login-register-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -176,23 +170,20 @@
             <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Вход в систему</h2>
             <div class="input-group">
                 <label for="username">Логин</label>
-                <input type="text" id="username" placeholder="Введите ваш логин">
+                <input type="text" id="username" placeholder="Введите ваш логин" value="dimaV">
             </div>
             <div class="input-group">
                 <label for="password">Пароль</label>
-                <input type="password" id="password" placeholder="Введите ваш пароль">
+                <input type="password" id="password" placeholder="Введите ваш пароль" value="123456789">
             </div>
             <button class="btn" onclick="login()">Войти</button>
-            <div class="login-register-buttons">
-                <button class="btn btn-register" onclick="window.location.href='register.html'">Регистрация</button>
-            </div>
+            <button class="btn btn-register" onclick="window.location.href='register.html'">Регистрация</button>
             <div id="errorMessage" class="error-message">Неверный логин или пароль!</div>
-            <div id="successMessage" class="success-message"></div>
         </div>
     </div>
 
     <script>
-        // Данные пользователей
+        // База данных пользователей
         let users = {
             'dimaV': {
                 password: '123456789',
@@ -240,20 +231,36 @@
             }
         };
 
+        // Загружаем сохраненных пользователей при старте
+        function loadUsers() {
+            const savedUsers = localStorage.getItem('users');
+            if (savedUsers) {
+                users = JSON.parse(savedUsers);
+            } else {
+                // Если нет сохраненных, сохраняем начальных пользователей
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+        }
+
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
             
+            // Загружаем актуальных пользователей
+            users = JSON.parse(localStorage.getItem('users')) || users;
+            
             if (users[username] && users[username].password === password) {
-                // Сохраняем данные пользователя в localStorage
+                // Сохраняем текущего пользователя
                 localStorage.setItem('currentUser', username);
-                localStorage.setItem('users', JSON.stringify(users));
                 
                 // Перенаправляем на главную страницу кабинета
                 window.location.href = 'dashboard.html';
             } else {
                 errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
             }
         }
 
@@ -270,11 +277,8 @@
             }
         });
 
-        // Загрузка сохраненных пользователей
-        const savedUsers = localStorage.getItem('users');
-        if (savedUsers) {
-            users = JSON.parse(savedUsers);
-        }
+        // Загружаем пользователей при загрузке страницы
+        loadUsers();
     </script>
 </body>
 </html>
