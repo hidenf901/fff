@@ -189,9 +189,9 @@
 
     <script>
         function registerUser() {
-            const username = document.getElementById('regUsername').value;
-            const password = document.getElementById('regPassword').value;
-            const birthday = document.getElementById('regBirthday').value;
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const birthday = document.getElementById('regBirthday').value.trim();
             const errorMessage = document.getElementById('errorMessage');
             const successMessage = document.getElementById('successMessage');
             
