@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lk-90 - Управление пользователями</title>
+    <style>
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e1e5eb;
+        }
+
+        .dark-theme {
+            --primary: #2d3b8f;
+            --secondary: #c92c2c;
+            --accent: #ffcc44;
+            --bg-color: #1a1a2e;
+            --card-bg: #16213e;
+            --text-color: #e6e6e6;
+            --border-color: #2d4059;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .nav-menu {
+            background-color: var(--bg-color);
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn.active {
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-header h2 {
+            color: var(--primary);
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .manage-container {
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .users-list {
+            margin-top: 20px;
+        }
+        
+        .user-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        .user-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .user-info-small {
+            flex: 1;
+        }
+        
+        .user-info-small strong {
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .user-info-small div {
+            margin-top: 5px;
+            color: var(--text-color);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .user-actions select {
+            padding: 8px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        
+        .user-actions select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .badge-owner {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
+        
+        .badge-admin {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        
+        .badge-tron {
+            background: linear-gradient(45deg, #00ff00, #008800);
+        }
+        
+        .badge-student {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+        
+        .user-stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .access-denied {
+            text-align: center;
+            padding: 50px;
+            color: #e74c3c;
+            font-size: 18px;
+        }
+        
+        .total-users {
+            text-align: right;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>lk-90</h1>
+            <p>Управление пользователями</p>
+            <div class="user-stats" id="userStars">⭐ 0</div>
+            <button class="theme-toggle" id="themeToggle" title="Сменить тему">🌙</button>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="dashboard.html" class="nav-btn">Главная</a>
+            <a href="showcase.html" class="nav-btn">Витрина</a>
+            <a href="notes.html" class="nav-btn">Заметки</a>
+            <a href="game.html" class="nav-btn">Игра</a>
+            <a href="chat.html" class="nav-btn">Чат</a>
+            <a href="tasks.html" class="nav-btn">Задания</a>
+            <a href="manage.html" class="nav-btn">Управление</a>
+            <a href="users.html" class="nav-btn active">Пользователи</a>
+        </div>
+        
+        <div class="content">
+            <div class="page-header">
+                <h2>Управление пользователями</h2>
+                <a href="dashboard.html" class="back-btn">← На главную</a>
+            </div>
+            
+            <div class="manage-container" id="manageContainer">
+                <!-- Контент будет загружаться сюда -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let users = {};
+
+        function loadData() {
+            users = JSON.parse(localStorage.getItem('users')) || {};
+            currentUser = localStorage.getItem('currentUser');
+            
+            if (!currentUser || !users[currentUser]) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            document.getElementById('userStars').textContent = `⭐ ${users[currentUser].stars || 0}`;
+            
+            // Проверяем права доступа
+            if (currentUser !== 'dimaV') {
+                document.getElementById('manageContainer').innerHTML = `
+                    <div class="access-denied">
+                        ⚠️ У вас нет прав для управления пользователями!<br>
+                        Эта страница доступна только владельцу системы.
+                    </div>
+                `;
+                return;
+            }
+            
+            renderUsersList();
+        }
+
+        function getBadgeClass(role) {
+            switch(role) {
+                case 'Владелец': return 'badge-owner';
+                case 'Администратор': return 'badge-admin';
+                case 'Разработчик ИИ': return 'badge-tron';
+                default: return 'badge-student';
+            }
+        }
+
+        function deleteUser(username) {
+            if (username === 'dimaV') {
+                alert('Нельзя удалить владельца системы!');
+                return;
+            }
+            
+            if (confirm(`Удалить пользователя ${username}?`)) {
+                delete users[username];
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsersList();
+            }
+        }
+
+        function updateUserRole(username, newRole) {
+            if (username === 'dimaV') {
+                alert('Нельзя изменить роль владельца системы!');
+                return;
+            }
+            
+            let badge, badgeText;
+            switch(newRole) {
+                case 'Администратор':
+                    badge = 'admin-badge';
+                    badgeText = 'АДМИН';
+                    break;
+                case 'Разработчик ИИ':
+                    badge = 'tron-badge';
+                    badgeText = 'ТРОН';
+                    break;
+                default:
+                    badge = 'student-badge';
+                    badgeText = 'УЧЕНИК';
+            }
+            
+            users[username].role = newRole;
+            users[username].badge = badge;
+            users[username].badgeText = badgeText;
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            renderUsersList();
+            
+            alert(`Роль пользователя ${username} изменена на "${newRole}"`);
+        }
+
+        function renderUsersList() {
+            const container = document.getElementById('manageContainer');
+            const totalUsers = Object.keys(users).length;
+            
+            container.innerHTML = `
+                <div class="total-users">Всего пользователей: ${totalUsers}</div>
+                <div class="users-list" id="usersList"></div>
+            `;
+            
+            const list = document.getElementById('usersList');
+            
+            list.innerHTML = Object.keys(users).map(username => {
+                const user = users[username];
+                const isOwner = username === 'dimaV';
+                
+                return `
+                    <div class="user-card">
+                        <div class="user-info-small">
+                            <strong>${username}</strong>
+                            <span class="badge ${getBadgeClass(user.role)}">${user.role}</span>
+                            <div>📅 Регистрация: ${user.regDate}</div>
+                            <div>🎂 День рождения: ${user.birthday}</div>
+                            <div>⭐ Звезды: ${user.stars || 0}</div>
+                            <div>✅ Задач выполнено: ${user.completedTasks || 0}</div>
+                        </div>
+                        <div class="user-actions">
+                            <select onchange="updateUserRole('${username}', this.value)" ${isOwner ? 'disabled' : ''}>
+                                <option value="Ученик" ${user.role === 'Ученик' ? 'selected' : ''}>Ученик</option>
+                                <option value="Администратор" ${user.role === 'Администратор' ? 'selected' : ''}>Администратор</option>
+                                <option value="Разработчик ИИ" ${user.role === 'Разработчик ИИ' ? 'selected' : ''}>Разработчик ИИ</option>
+                            </select>
+                            <button class="btn btn-delete" onclick="deleteUser('${username}')" ${isOwner ? 'disabled' : ''}>Удалить</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            this.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        });
+
+        loadData();
+    </script>
+</body>
+</html>

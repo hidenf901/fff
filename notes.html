@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lk-90 - Заметки</title>
+    <style>
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e1e5eb;
+        }
+
+        .dark-theme {
+            --primary: #2d3b8f;
+            --secondary: #c92c2c;
+            --accent: #ffcc44;
+            --bg-color: #1a1a2e;
+            --card-bg: #16213e;
+            --text-color: #e6e6e6;
+            --border-color: #2d4059;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .nav-menu {
+            background-color: var(--bg-color);
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn.active {
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-header h2 {
+            color: var(--primary);
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .notes-container {
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .notes-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .notes-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #16a085, #1abc9c);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notes-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .note-item {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .note-date {
+            font-size: 12px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+        
+        .note-text {
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+        
+        .note-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .note-delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .note-delete:hover {
+            opacity: 0.8;
+        }
+        
+        .empty-notes {
+            text-align: center;
+            color: var(--text-color);
+            padding: 40px;
+            font-style: italic;
+        }
+        
+        .user-stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>lk-90</h1>
+            <p>Мои заметки</p>
+            <div class="user-stats" id="userStars">⭐ 0</div>
+            <button class="theme-toggle" id="themeToggle" title="Сменить тему">🌙</button>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="dashboard.html" class="nav-btn">Главная</a>
+            <a href="showcase.html" class="nav-btn">Витрина</a>
+            <a href="notes.html" class="nav-btn active">Заметки</a>
+            <a href="game.html" class="nav-btn">Игра</a>
+            <a href="chat.html" class="nav-btn">Чат</a>
+            <a href="tasks.html" class="nav-btn">Задания</a>
+            <a href="manage.html" class="nav-btn" id="manageLink" style="display: none;">Управление</a>
+            <a href="users.html" class="nav-btn" id="usersLink" style="display: none;">Пользователи</a>
+        </div>
+        
+        <div class="content">
+            <div class="page-header">
+                <h2>Мои заметки</h2>
+                <a href="dashboard.html" class="back-btn">← На главную</a>
+            </div>
+            
+            <div class="notes-container">
+                <textarea class="notes-input" id="noteInput" placeholder="Введите вашу заметку здесь..."></textarea>
+                <button class="btn" onclick="addNote()">Добавить заметку</button>
+            </div>
+            
+            <div class="notes-list" id="notesList">
+                <!-- Заметки будут загружаться сюда -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let users = {};
+        let notes = [];
+
+        function loadData() {
+            users = JSON.parse(localStorage.getItem('users')) || {};
+            currentUser = localStorage.getItem('currentUser');
+            
+            if (!currentUser || !users[currentUser]) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            document.getElementById('userStars').textContent = `⭐ ${users[currentUser].stars || 0}`;
+            
+            // Показываем админские ссылки
+            if (currentUser === 'dimaV') {
+                document.getElementById('manageLink').style.display = 'inline-block';
+                document.getElementById('usersLink').style.display = 'inline-block';
+            }
+            
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const savedNotes = localStorage.getItem('notes_' + currentUser);
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+            }
+            renderNotes();
+        }
+
+        function saveNotes() {
+            localStorage.setItem('notes_' + currentUser, JSON.stringify(notes));
+        }
+
+        function addNote() {
+            const input = document.getElementById('noteInput');
+            const text = input.value.trim();
+            
+            if (!text) {
+                alert('Введите текст заметки!');
+                return;
+            }
+            
+            const note = {
+                id: Date.now(),
+                text: text,
+                date: new Date().toLocaleString('ru-RU')
+            };
+            
+            notes.unshift(note);
+            saveNotes();
+            renderNotes();
+            input.value = '';
+        }
+
+        function deleteNote(id) {
+            if (confirm('Удалить заметку?')) {
+                notes = notes.filter(note => note.id !== id);
+                saveNotes();
+                renderNotes();
+            }
+        }
+
+        function renderNotes() {
+            const list = document.getElementById('notesList');
+            
+            if (notes.length === 0) {
+                list.innerHTML = '<div class="empty-notes">У вас пока нет заметок</div>';
+                return;
+            }
+            
+            list.innerHTML = notes.map(note => `
+                <div class="note-item">
+                    <div class="note-date">${note.date}</div>
+                    <div class="note-text">${note.text}</div>
+                    <div class="note-actions">
+                        <button class="note-delete" onclick="deleteNote(${note.id})">Удалить</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            this.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        });
+
+        loadData();
+    </script>
+</body>
+</html>
