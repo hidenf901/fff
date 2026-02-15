@@ -37,10 +37,12 @@
         .form {
             padding: 30px;
         }
+        .input-group {
+            margin-bottom: 20px;
+        }
         input {
             width: 100%;
             padding: 12px;
-            margin: 10px 0;
             border: 2px solid #e1e5eb;
             border-radius: 8px;
             font-size: 16px;
@@ -60,6 +62,7 @@
             font-weight: 600;
             cursor: pointer;
             margin: 10px 0;
+            transition: transform 0.2s;
         }
         button:hover {
             transform: translateY(-2px);
@@ -71,7 +74,17 @@
         .error {
             color: #e74c3c;
             text-align: center;
+            margin-top: 15px;
             display: none;
+        }
+        .info {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -82,27 +95,77 @@
             <p>Личный кабинет</p>
         </div>
         <div class="form">
-            <h2 style="text-align: center; margin-bottom: 20px;">Вход</h2>
-            <input type="text" id="username" placeholder="Логин" value="dimaV">
-            <input type="password" id="password" placeholder="Пароль" value="123456789">
+            <h2 style="text-align: center; margin-bottom: 20px;">Вход в систему</h2>
+            
+            <div class="input-group">
+                <label>Логин</label>
+                <input type="text" id="username" placeholder="Введите логин" value="caxa">
+            </div>
+            
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль" value="123456789">
+            </div>
+            
             <button onclick="login()">Войти</button>
             <button class="register-btn" onclick="window.location.href='register.html'">Регистрация</button>
+            
             <div class="error" id="error">Неверный логин или пароль!</div>
+            
+            <div class="info">
+                <strong>Тестовые аккаунты:</strong><br>
+                caxa / 123456789 (админ)<br>
+                dimaV / 123456789 (владелец)<br>
+                ТРОН / 123456789 (разработчик)<br>
+                dimaV2 / 123456789 (ученик)
+            </div>
         </div>
     </div>
 
     <script>
-        // База пользователей
-        const users = {
-            'dimaV': { password: '123456789', role: 'Владелец', birthday: '10.10.2006', regDate: '15.03.2022', stars: 45, badge: 'owner-badge', badgeText: 'ВЛАДЕЛЕЦ' },
-            'dimaV2': { password: '123456789', role: 'Ученик', birthday: '15.08.2007', regDate: '20.01.2023', stars: 20, badge: 'student-badge', badgeText: 'УЧЕНИК' },
-            'caxa': { password: '123456789', role: 'Администратор', birthday: '12.05.2006', regDate: '10.02.2023', stars: 35, badge: 'admin-badge', badgeText: 'АДМИН' },
-            'ТРОН': { password: '123456789', role: 'Разработчик ИИ', birthday: '01.01.2005', regDate: '01.09.2023', stars: 50, badge: 'tron-badge', badgeText: 'ТРОН' }
+        // База пользователей при запуске
+        const defaultUsers = {
+            'dimaV': { 
+                password: '123456789', 
+                role: 'Владелец', 
+                birthday: '10.10.2006', 
+                regDate: '15.03.2022', 
+                stars: 45, 
+                badge: 'owner-badge', 
+                badgeText: 'ВЛАДЕЛЕЦ' 
+            },
+            'dimaV2': { 
+                password: '123456789', 
+                role: 'Ученик', 
+                birthday: '15.08.2007', 
+                regDate: '20.01.2023', 
+                stars: 20, 
+                badge: 'student-badge', 
+                badgeText: 'УЧЕНИК' 
+            },
+            'caxa': { 
+                password: '123456789', 
+                role: 'Администратор', 
+                birthday: '12.05.2006', 
+                regDate: '10.02.2023', 
+                stars: 35, 
+                badge: 'admin-badge', 
+                badgeText: 'АДМИН' 
+            },
+            'ТРОН': { 
+                password: '123456789', 
+                role: 'Разработчик ИИ', 
+                birthday: '01.01.2005', 
+                regDate: '01.09.2023', 
+                stars: 50, 
+                badge: 'tron-badge', 
+                badgeText: 'ТРОН' 
+            }
         };
 
-        // Сохраняем пользователей при запуске
+        // Инициализация localStorage при первом запуске
         if (!localStorage.getItem('users')) {
-            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('users', JSON.stringify(defaultUsers));
         }
 
         function login() {
@@ -110,13 +173,27 @@
             const password = document.getElementById('password').value;
             const users = JSON.parse(localStorage.getItem('users'));
             
+            // Проверяем существует ли пользователь и правильный ли пароль
             if (users[username] && users[username].password === password) {
                 localStorage.setItem('currentUser', username);
                 window.location.href = 'dashboard.html';
             } else {
-                document.getElementById('error').style.display = 'block';
+                const error = document.getElementById('error');
+                error.style.display = 'block';
+                
+                // Скрываем ошибку через 3 секунды
+                setTimeout(() => {
+                    error.style.display = 'none';
+                }, 3000);
             }
         }
+
+        // Обработка нажатия Enter
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
     </script>
 </body>
 </html>
