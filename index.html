@@ -5,155 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lk-90 - Вход</title>
     <style>
-        :root {
-            --primary: #1a2a6c;
-            --secondary: #b21f1f;
-            --accent: #fdbb2d;
-            --bg-color: #f5f7fa;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --border-color: #e1e5eb;
-        }
-
-        .dark-theme {
-            --primary: #2d3b8f;
-            --secondary: #c92c2c;
-            --accent: #ffcc44;
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --text-color: #e6e6e6;
-            --border-color: #2d4059;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', sans-serif;
         }
-        
         body {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: var(--text-color);
         }
-        
         .container {
             width: 100%;
-            max-width: 500px;
-            background-color: var(--card-bg);
+            max-width: 400px;
+            background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        
         .header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
-            position: relative;
         }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .form-container {
+        .header h1 { font-size: 32px; margin-bottom: 5px; }
+        .form {
             padding: 30px;
         }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-        
-        .input-group input {
+        input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--border-color);
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e1e5eb;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
-            background-color: var(--card-bg);
-            color: var(--text-color);
         }
-        
-        .input-group input:focus {
-            border-color: var(--primary);
+        input:focus {
+            border-color: #1a2a6c;
             outline: none;
         }
-        
-        .btn {
-            display: block;
+        button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
-        
-        .btn:hover {
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        
-        .btn-register {
+        .register-btn {
             background: linear-gradient(to right, #9b59b6, #8e44ad);
         }
-        
-        .error-message {
+        .error {
             color: #e74c3c;
             text-align: center;
-            margin-top: 15px;
-            font-weight: 500;
-            display: none;
-        }
-        
-        .success-message {
-            color: #27ae60;
-            text-align: center;
-            margin-top: 15px;
-            font-weight: 500;
             display: none;
         }
     </style>
@@ -162,123 +79,44 @@
     <div class="container">
         <div class="header">
             <h1>lk-90</h1>
-            <p>Личный кабинет IT-специалиста</p>
-            <button class="theme-toggle" id="themeToggle" title="Сменить тему">🌙</button>
+            <p>Личный кабинет</p>
         </div>
-        
-        <div class="form-container">
-            <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Вход в систему</h2>
-            <div class="input-group">
-                <label for="username">Логин</label>
-                <input type="text" id="username" placeholder="Введите ваш логин" value="dimaV">
-            </div>
-            <div class="input-group">
-                <label for="password">Пароль</label>
-                <input type="password" id="password" placeholder="Введите ваш пароль" value="123456789">
-            </div>
-            <button class="btn" onclick="login()">Войти</button>
-            <button class="btn btn-register" onclick="window.location.href='register.html'">Регистрация</button>
-            <div id="errorMessage" class="error-message">Неверный логин или пароль!</div>
+        <div class="form">
+            <h2 style="text-align: center; margin-bottom: 20px;">Вход</h2>
+            <input type="text" id="username" placeholder="Логин" value="dimaV">
+            <input type="password" id="password" placeholder="Пароль" value="123456789">
+            <button onclick="login()">Войти</button>
+            <button class="register-btn" onclick="window.location.href='register.html'">Регистрация</button>
+            <div class="error" id="error">Неверный логин или пароль!</div>
         </div>
     </div>
 
     <script>
-        // База данных пользователей
-        let users = {
-            'dimaV': {
-                password: '123456789',
-                role: 'Владелец',
-                birthday: '10.10.2006',
-                regDate: '15.03.2022',
-                rank: 1,
-                completedTasks: 12,
-                stars: 45,
-                badge: 'owner-badge',
-                badgeText: 'ВЛАДЕЛЕЦ'
-            },
-            'dimaV2': {
-                password: '123456789',
-                role: 'Ученик',
-                birthday: '15.08.2007',
-                regDate: '20.01.2023',
-                rank: 5,
-                completedTasks: 8,
-                stars: 20,
-                badge: 'student-badge',
-                badgeText: 'УЧЕНИК'
-            },
-            'caxa': {
-                password: '123456789',
-                role: 'Администратор',
-                birthday: '12.05.2006',
-                regDate: '10.02.2023',
-                rank: 3,
-                completedTasks: 10,
-                stars: 35,
-                badge: 'admin-badge',
-                badgeText: 'АДМИН'
-            },
-            'ТРОН': {
-                password: '123456789',
-                role: 'Разработчик ИИ',
-                birthday: '01.01.2005',
-                regDate: '01.09.2023',
-                rank: 2,
-                completedTasks: 15,
-                stars: 50,
-                badge: 'tron-badge',
-                badgeText: 'ТРОН'
-            }
+        // База пользователей
+        const users = {
+            'dimaV': { password: '123456789', role: 'Владелец', birthday: '10.10.2006', regDate: '15.03.2022', stars: 45, badge: 'owner-badge', badgeText: 'ВЛАДЕЛЕЦ' },
+            'dimaV2': { password: '123456789', role: 'Ученик', birthday: '15.08.2007', regDate: '20.01.2023', stars: 20, badge: 'student-badge', badgeText: 'УЧЕНИК' },
+            'caxa': { password: '123456789', role: 'Администратор', birthday: '12.05.2006', regDate: '10.02.2023', stars: 35, badge: 'admin-badge', badgeText: 'АДМИН' },
+            'ТРОН': { password: '123456789', role: 'Разработчик ИИ', birthday: '01.01.2005', regDate: '01.09.2023', stars: 50, badge: 'tron-badge', badgeText: 'ТРОН' }
         };
 
-        // Загружаем сохраненных пользователей при старте
-        function loadUsers() {
-            const savedUsers = localStorage.getItem('users');
-            if (savedUsers) {
-                users = JSON.parse(savedUsers);
-            } else {
-                // Если нет сохраненных, сохраняем начальных пользователей
-                localStorage.setItem('users', JSON.stringify(users));
-            }
+        // Сохраняем пользователей при запуске
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify(users));
         }
 
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Загружаем актуальных пользователей
-            users = JSON.parse(localStorage.getItem('users')) || users;
+            const users = JSON.parse(localStorage.getItem('users'));
             
             if (users[username] && users[username].password === password) {
-                // Сохраняем текущего пользователя
                 localStorage.setItem('currentUser', username);
-                
-                // Перенаправляем на главную страницу кабинета
                 window.location.href = 'dashboard.html';
             } else {
-                errorMessage.style.display = 'block';
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 3000);
+                document.getElementById('error').style.display = 'block';
             }
         }
-
-        // Загрузка темы
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-theme');
-            this.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
-        });
-
-        // Обработка Enter
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                login();
-            }
-        });
-
-        // Загружаем пользователей при загрузке страницы
-        loadUsers();
     </script>
 </body>
 </html>
