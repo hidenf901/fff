@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -44,6 +44,7 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            border-bottom: 1px solid #e1e5eb;
         }
         .nav a {
             padding: 10px 20px;
@@ -52,13 +53,19 @@
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
+            transition: transform 0.2s;
         }
-        .nav a:hover { transform: translateY(-2px); }
-        .content { padding: 30px; }
+        .nav a:hover {
+            transform: translateY(-2px);
+        }
+        .content {
+            padding: 30px;
+        }
         .welcome {
             text-align: center;
-            font-size: 20px;
+            font-size: 24px;
             margin-bottom: 20px;
+            color: #1a2a6c;
         }
         .info {
             background: #f5f7fa;
@@ -67,10 +74,13 @@
             margin: 20px 0;
             border-left: 5px solid #1a2a6c;
         }
-        .info p { margin: 10px 0; }
+        .info p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
         .stats {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin: 20px 0;
         }
@@ -80,6 +90,10 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 32px;
+            margin-bottom: 5px;
         }
         .logout {
             background: #e74c3c;
@@ -92,6 +106,10 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 20px;
+            transition: opacity 0.2s;
+        }
+        .logout:hover {
+            opacity: 0.9;
         }
         .badge {
             display: inline-block;
@@ -99,11 +117,53 @@
             border-radius: 15px;
             color: white;
             margin-left: 10px;
+            font-size: 12px;
         }
         .owner-badge { background: #9b59b6; }
         .admin-badge { background: #e74c3c; }
         .student-badge { background: #3498db; }
         .tron-badge { background: #27ae60; }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .action-btn {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
+        .action-btn span {
+            display: block;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .admin-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            display: none;
+        }
+        .admin-btn {
+            padding: 15px;
+            background: linear-gradient(to right, #e67e22, #d35400);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -128,52 +188,89 @@
         <div class="content">
             <div class="welcome" id="welcome"></div>
             
+            <div class="quick-actions">
+                <button class="action-btn" onclick="window.location.href='showcase.html'">
+                    <span>🍬</span> Витрина
+                </button>
+                <button class="action-btn" onclick="window.location.href='notes.html'">
+                    <span>📝</span> Заметки
+                </button>
+                <button class="action-btn" onclick="window.location.href='game.html'">
+                    <span>🎮</span> Игра
+                </button>
+                <button class="action-btn" onclick="window.location.href='chat.html'">
+                    <span>💬</span> Чат
+                </button>
+            </div>
+            
+            <div class="admin-section" id="adminSection">
+                <button class="admin-btn" onclick="window.location.href='manage.html'">Управление товарами</button>
+                <button class="admin-btn" onclick="window.location.href='users.html'">Управление пользователями</button>
+            </div>
+            
             <div class="info">
-                <h3>Информация</h3>
+                <h3>Информация о пользователе</h3>
                 <p><strong>Логин:</strong> <span id="login"></span></p>
                 <p><strong>Роль:</strong> <span id="role"></span> <span id="badge" class="badge"></span></p>
                 <p><strong>Дата рождения:</strong> <span id="birthday"></span></p>
-                <p><strong>Регистрация:</strong> <span id="regDate"></span></p>
+                <p><strong>Дата регистрации:</strong> <span id="regDate"></span></p>
                 <p><strong>Звезды:</strong> <span id="starsInfo">0</span> ⭐</p>
             </div>
             
+            <h2>Статистика</h2>
             <div class="stats">
-                <div class="stat-card"><h3>18</h3><p>Курсов</p></div>
-                <div class="stat-card"><h3 id="completed">0</h3><p>Задач</p></div>
-                <div class="stat-card"><h3 id="starsStat">0</h3><p>Звезд</p></div>
-                <div class="stat-card"><h3 id="rank">1</h3><p>Рейтинг</p></div>
+                <div class="stat-card">
+                    <h3>18</h3>
+                    <p>Курсов</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="completed">0</h3>
+                    <p>Задач</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="starsStat">0</h3>
+                    <p>Звезд</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="rank">1</h3>
+                    <p>Рейтинг</p>
+                </div>
             </div>
             
-            <button class="logout" onclick="logout()">Выйти</button>
+            <button class="logout" onclick="logout()">Выйти из системы</button>
         </div>
     </div>
 
     <script>
-        function loadData() {
+        function loadUserData() {
             const users = JSON.parse(localStorage.getItem('users'));
             const currentUser = localStorage.getItem('currentUser');
             
-            if (!currentUser || !users[currentUser]) {
+            if (!currentUser || !users || !users[currentUser]) {
                 window.location.href = 'index.html';
                 return;
             }
             
             const user = users[currentUser];
             
+            // Обновляем все поля
             document.getElementById('welcome').innerHTML = `Добро пожаловать, ${currentUser}!`;
             document.getElementById('login').textContent = currentUser;
             document.getElementById('role').textContent = user.role;
-            document.getElementById('badge').textContent = user.badgeText;
-            document.getElementById('badge').className = `badge ${user.badge}`;
+            document.getElementById('badge').textContent = user.badgeText || 'УЧЕНИК';
+            document.getElementById('badge').className = `badge ${user.badge || 'student-badge'}`;
             document.getElementById('birthday').textContent = user.birthday;
             document.getElementById('regDate').textContent = user.regDate;
-            document.getElementById('stars').textContent = user.stars;
-            document.getElementById('starsInfo').textContent = user.stars;
-            document.getElementById('starsStat').textContent = user.stars;
+            document.getElementById('stars').textContent = user.stars || 0;
+            document.getElementById('starsInfo').textContent = user.stars || 0;
+            document.getElementById('starsStat').textContent = user.stars || 0;
+            document.getElementById('completed').textContent = user.completedTasks || 0;
             
+            // Показываем админские ссылки для владельца
             if (currentUser === 'dimaV') {
                 document.getElementById('manageLink').style.display = 'inline-block';
                 document.getElementById('usersLink').style.display = 'inline-block';
+                document.getElementById('adminSection').style.display = 'grid';
             }
         }
         
@@ -182,7 +279,8 @@
             window.location.href = 'index.html';
         }
         
-        loadData();
+        // Загружаем данные при загрузке страницы
+        window.addEventListener('load', loadUserData);
     </script>
 </body>
 </html>
