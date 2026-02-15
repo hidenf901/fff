@@ -168,10 +168,12 @@
             width: 100%;
         }
         
-        .leader-badge {
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .leader-badge, .admin-badge, .owner-badge, .student-badge, .tron-badge {
             display: inline-block;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #333;
             padding: 5px 15px;
             border-radius: 20px;
             font-weight: bold;
@@ -179,48 +181,11 @@
             animation: pulse 2s infinite;
         }
         
-        .admin-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-left: 10px;
-            animation: pulse 2s infinite;
-        }
-        
-        .owner-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #9b59b6, #8e44ad);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-left: 10px;
-            animation: pulse 2s infinite;
-        }
-        
-        .student-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .tron-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #00ff00, #008800);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-left: 10px;
-            animation: pulse 2s infinite;
-        }
+        .leader-badge { background: linear-gradient(45deg, #FFD700, #FFA500); color: #333; }
+        .admin-badge { background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; }
+        .owner-badge { background: linear-gradient(45deg, #9b59b6, #8e44ad); color: white; }
+        .student-badge { background: linear-gradient(45deg, #3498db, #2980b9); color: white; animation: none; }
+        .tron-badge { background: linear-gradient(45deg, #00ff00, #008800); color: white; }
         
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -349,6 +314,10 @@
             font-weight: 600;
             cursor: pointer;
         }
+        
+        .admin-btn:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -366,7 +335,7 @@
         </div>
         
         <!-- Навигационное меню -->
-        <div class="nav-menu">
+        <div class="nav-menu" id="navMenu">
             <a href="dashboard.html" class="nav-btn">Главная</a>
             <a href="showcase.html" class="nav-btn">Витрина</a>
             <a href="notes.html" class="nav-btn">Заметки</a>
@@ -378,16 +347,17 @@
         </div>
         
         <div class="content">
-            <div class="welcome-message">
-                Добро пожаловать, <span id="userName">Пользователь</span>! <span id="userRoleBadge" class="leader-badge">ЛИДЕР</span>
+            <div class="welcome-message" id="welcomeMessage">
+                Добро пожаловать, <span id="userName">Пользователь</span>! 
+                <span id="userRoleBadge" class="student-badge">УЧЕНИК</span>
             </div>
             
             <div class="user-role-info" id="userRoleInfo">
-                Роль: Старший разработчик
+                Загрузка данных...
             </div>
             
             <div class="birthday-info" id="birthdayInfo">
-                Дата рождения: 10.10.2006
+                Загрузка...
             </div>
             
             <div class="quick-actions">
@@ -417,7 +387,7 @@
             <div class="user-info">
                 <h3>Информация о пользователе</h3>
                 <p><strong>Логин:</strong> <span id="userLogin"></span></p>
-                <p><strong>Роль:</strong> <span id="userRole"></span> <span id="infoRoleBadge" class="leader-badge"></span></p>
+                <p><strong>Роль:</strong> <span id="userRole"></span> <span id="infoRoleBadge" class="student-badge"></span></p>
                 <p><strong>Дата рождения:</strong> <span id="userBirthday"></span></p>
                 <p><strong>Дата регистрации:</strong> <span id="userRegDate"></span></p>
                 <p><strong>Статус:</strong> Активен</p>
@@ -431,7 +401,7 @@
                     <p>Курсов доступно</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="completedTasksCount">12</h3>
+                    <h3 id="completedTasksCount">0</h3>
                     <p>Задач выполнено</p>
                 </div>
                 <div class="stat-card">
@@ -479,6 +449,10 @@
             users = JSON.parse(localStorage.getItem('users')) || {};
             currentUser = localStorage.getItem('currentUser');
             
+            console.log('Current user:', currentUser);
+            console.log('Users:', users);
+            
+            // Если нет текущего пользователя, перенаправляем на вход
             if (!currentUser || !users[currentUser]) {
                 window.location.href = 'index.html';
                 return;
@@ -493,7 +467,7 @@
             document.getElementById('userBirthday').textContent = userData.birthday;
             document.getElementById('userRegDate').textContent = userData.regDate;
             document.getElementById('userRank').textContent = userData.rank;
-            document.getElementById('completedTasksCount').textContent = userData.completedTasks;
+            document.getElementById('completedTasksCount').textContent = userData.completedTasks || 0;
             document.getElementById('userStars').textContent = userData.stars || 0;
             document.getElementById('userStarsInfo').textContent = userData.stars || 0;
             document.getElementById('userStarsStat').textContent = userData.stars || 0;
@@ -501,8 +475,8 @@
             // Обновляем бейджи
             const badges = document.querySelectorAll('#userRoleBadge, #infoRoleBadge');
             badges.forEach(badge => {
-                badge.className = userData.badge;
-                badge.textContent = userData.badgeText;
+                badge.className = userData.badge || 'student-badge';
+                badge.textContent = userData.badgeText || 'УЧЕНИК';
             });
             
             document.getElementById('userRoleInfo').textContent = `Роль: ${userData.role}`;
@@ -528,7 +502,7 @@
         });
 
         // Загружаем данные при загрузке страницы
-        loadUserData();
+        window.addEventListener('load', loadUserData);
     </script>
 </body>
 </html>
