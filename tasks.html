@@ -5,469 +5,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lk-90 - Задания</title>
     <style>
-        :root {
-            --primary: #1a2a6c;
-            --secondary: #b21f1f;
-            --accent: #fdbb2d;
-            --bg-color: #f5f7fa;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --border-color: #e1e5eb;
-        }
-
-        .dark-theme {
-            --primary: #2d3b8f;
-            --secondary: #c92c2c;
-            --accent: #ffcc44;
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --text-color: #e6e6e6;
-            --border-color: #2d4059;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', sans-serif;
         }
-        
         body {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
-            color: var(--text-color);
         }
-        
         .container {
-            width: 100%;
-            max-width: 1200px;
-            background-color: var(--card-bg);
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
-        
         .header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
             color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .nav-menu {
-            background-color: var(--bg-color);
-            padding: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .nav-btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            transition: transform 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .nav-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .nav-btn.active {
-            box-shadow: 0 0 0 3px var(--accent);
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .page-header h2 {
-            color: var(--primary);
-        }
-        
-        .back-btn {
-            padding: 10px 20px;
-            background: linear-gradient(to right, #95a5a6, #7f8c8d);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .tasks-container {
-            background-color: var(--bg-color);
-            border-radius: 10px;
             padding: 20px;
+            text-align: center;
         }
-        
-        .section-title {
-            color: var(--primary);
-            margin: 20px 0 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .pending-tasks, .completed-tasks {
-            margin-bottom: 30px;
-        }
-        
-        .task-item {
-            background-color: var(--card-bg);
-            border-radius: 10px;
+        .nav {
+            background: #f5f7fa;
             padding: 15px;
-            margin-bottom: 15px;
-            border-left: 4px solid #f39c12;
-            transition: transform 0.2s;
-        }
-        
-        .task-item:hover {
-            transform: translateX(5px);
-        }
-        
-        .task-item.approved {
-            border-left-color: #27ae60;
-        }
-        
-        .task-item.rejected {
-            border-left-color: #e74c3c;
-        }
-        
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .task-user {
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .task-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .task-time {
-            font-size: 12px;
-            color: var(--secondary);
-            margin-bottom: 10px;
-        }
-        
-        .task-actions {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            flex-wrap: wrap;
         }
-        
-        .stars-reward {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: bold;
-            color: #f39c12;
+        .nav a {
+            padding: 10px 20px;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
         }
-        
-        .btn {
-            padding: 8px 15px;
+        .content { padding: 30px; }
+        .task {
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #f39c12;
+        }
+        .task.approved { border-left-color: #27ae60; }
+        .task.rejected { border-left-color: #e74c3c; }
+        .task-header { display: flex; justify-content: space-between; }
+        .task-user { font-weight: bold; color: #1a2a6c; }
+        .task-stars { color: #f39c12; font-weight: bold; }
+        .task-actions { margin-top: 10px; }
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
             border: none;
             border-radius: 5px;
             color: white;
-            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .btn-approve {
-            background: linear-gradient(to right, #27ae60, #2ecc71);
-        }
-        
-        .btn-reject {
-            background: linear-gradient(to right, #e74c3c, #c0392b);
-        }
-        
-        .no-tasks {
-            text-align: center;
-            color: var(--text-color);
-            padding: 40px;
-            font-style: italic;
-            background-color: var(--card-bg);
-            border-radius: 8px;
-        }
-        
-        .task-status {
+        .approve { background: #27ae60; }
+        .reject { background: #e74c3c; }
+        .back-btn {
             display: inline-block;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-approved {
-            background-color: #27ae60;
+            padding: 10px 20px;
+            background: #95a5a6;
             color: white;
-        }
-        
-        .status-rejected {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .user-stats {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>lk-90</h1>
-            <p>Задания на проверку</p>
-            <div class="user-stats" id="userStars">⭐ 0</div>
-            <button class="theme-toggle" id="themeToggle" title="Сменить тему">🌙</button>
+            <h1>Задания</h1>
         </div>
         
-        <div class="nav-menu">
-            <a href="dashboard.html" class="nav-btn">Главная</a>
-            <a href="showcase.html" class="nav-btn">Витрина</a>
-            <a href="notes.html" class="nav-btn">Заметки</a>
-            <a href="game.html" class="nav-btn">Игра</a>
-            <a href="chat.html" class="nav-btn">Чат</a>
-            <a href="tasks.html" class="nav-btn active">Задания</a>
-            <a href="manage.html" class="nav-btn" id="manageLink" style="display: none;">Управление</a>
-            <a href="users.html" class="nav-btn" id="usersLink" style="display: none;">Пользователи</a>
+        <div class="nav">
+            <a href="dashboard.html">Главная</a>
+            <a href="showcase.html">Витрина</a>
+            <a href="notes.html">Заметки</a>
+            <a href="game.html">Игра</a>
+            <a href="chat.html">Чат</a>
+            <a href="tasks.html">Задания</a>
         </div>
         
         <div class="content">
-            <div class="page-header">
-                <h2>Задания на проверку</h2>
-                <a href="dashboard.html" class="back-btn">← На главную</a>
-            </div>
-            
-            <div class="tasks-container">
-                <div class="pending-tasks">
-                    <h3 class="section-title">📋 Ожидают проверки</h3>
-                    <div id="pendingTasksList"></div>
-                </div>
-                
-                <div class="completed-tasks">
-                    <h3 class="section-title">✅ Проверенные задания</h3>
-                    <div id="completedTasksList"></div>
-                </div>
-            </div>
+            <a href="dashboard.html" class="back-btn">← На главную</a>
+            <h2>На проверке</h2>
+            <div id="pending"></div>
+            <h2 style="margin-top: 20px;">Проверенные</h2>
+            <div id="completed"></div>
         </div>
     </div>
 
     <script>
-        let currentUser = null;
-        let users = {};
-        let pendingTasks = [];
-        let completedTasks = [];
-
-        function loadData() {
-            users = JSON.parse(localStorage.getItem('users')) || {};
-            currentUser = localStorage.getItem('currentUser');
-            
-            if (!currentUser || !users[currentUser]) {
-                window.location.href = 'index.html';
-                return;
-            }
-            
-            document.getElementById('userStars').textContent = `⭐ ${users[currentUser].stars || 0}`;
-            
-            // Показываем админские ссылки
-            if (currentUser === 'dimaV') {
-                document.getElementById('manageLink').style.display = 'inline-block';
-                document.getElementById('usersLink').style.display = 'inline-block';
-            }
-            
-            loadTasks();
+        function checkAuth() {
+            const currentUser = localStorage.getItem('currentUser');
+            const users = JSON.parse(localStorage.getItem('users'));
+            if (!currentUser || !users[currentUser]) window.location.href = 'index.html';
         }
 
-        function loadTasks() {
-            const saved = localStorage.getItem('tasks');
-            if (saved) {
-                const tasks = JSON.parse(saved);
-                pendingTasks = tasks.pending || [];
-                completedTasks = tasks.completed || [];
-            }
-            renderTasks();
+        function getTasks() {
+            return JSON.parse(localStorage.getItem('tasks')) || { pending: [], completed: [] };
         }
 
-        function saveTasks() {
-            localStorage.setItem('tasks', JSON.stringify({
-                pending: pendingTasks,
-                completed: completedTasks
-            }));
-        }
-
-        function approveTask(taskId) {
-            if (currentUser !== 'dimaV') {
-                alert('Только владелец может проверять задания!');
-                return;
-            }
-            
-            const task = pendingTasks.find(t => t.id === taskId);
-            if (!task) return;
-            
-            // Начисляем звезды
-            if (users[task.user]) {
-                users[task.user].stars = (users[task.user].stars || 0) + task.stars;
-                users[task.user].completedTasks = (users[task.user].completedTasks || 0) + 1;
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-            
-            // Перемещаем в выполненные
-            task.status = 'approved';
-            task.approvedAt = new Date().toLocaleString('ru-RU');
-            task.approvedBy = currentUser;
-            completedTasks.push(task);
-            
-            // Удаляем из ожидающих
-            pendingTasks = pendingTasks.filter(t => t.id !== taskId);
-            
-            saveTasks();
-            renderTasks();
-            
-            alert(`Задание одобрено! Пользователь ${task.user} получил ${task.stars} ⭐`);
-        }
-
-        function rejectTask(taskId) {
-            if (currentUser !== 'dimaV') {
-                alert('Только владелец может проверять задания!');
-                return;
-            }
-            
-            const task = pendingTasks.find(t => t.id === taskId);
-            if (!task) return;
-            
-            task.status = 'rejected';
-            task.rejectedAt = new Date().toLocaleString('ru-RU');
-            task.rejectedBy = currentUser;
-            completedTasks.push(task);
-            
-            pendingTasks = pendingTasks.filter(t => t.id !== taskId);
-            
-            saveTasks();
-            renderTasks();
-            
-            alert(`Задание отклонено! Пользователь ${task.user} может переделать его.`);
+        function saveTasks(tasks) {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
         }
 
         function renderTasks() {
-            const pendingList = document.getElementById('pendingTasksList');
-            const completedList = document.getElementById('completedTasksList');
+            const tasks = getTasks();
+            const currentUser = localStorage.getItem('currentUser');
+            const isAdmin = currentUser === 'dimaV';
             
-            // Отрисовка ожидающих заданий
-            if (pendingTasks.length === 0) {
-                pendingList.innerHTML = '<div class="no-tasks">Нет заданий на проверку</div>';
-            } else {
-                pendingList.innerHTML = pendingTasks.map(task => `
-                    <div class="task-item">
-                        <div class="task-header">
-                            <div class="task-user">${task.user}</div>
-                            <div class="stars-reward">⭐ ${task.stars}</div>
-                        </div>
-                        <div class="task-name">${task.taskName}</div>
-                        <div class="task-time">Отправлено: ${task.timestamp}</div>
-                        ${currentUser === 'dimaV' ? `
-                            <div class="task-actions">
-                                <button class="btn btn-approve" onclick="approveTask(${task.id})">✅ Одобрить</button>
-                                <button class="btn btn-reject" onclick="rejectTask(${task.id})">❌ Отклонить</button>
-                            </div>
-                        ` : ''}
+            document.getElementById('pending').innerHTML = tasks.pending.map(t => `
+                <div class="task">
+                    <div class="task-header">
+                        <span class="task-user">${t.user}</span>
+                        <span class="task-stars">⭐ ${t.stars}</span>
                     </div>
-                `).join('');
-            }
+                    <div>${t.task}</div>
+                    <div>${t.time}</div>
+                    ${isAdmin ? `
+                        <div class="task-actions">
+                            <button class="approve" onclick="approve(${t.id})">✓</button>
+                            <button class="reject" onclick="reject(${t.id})">✗</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('') || 'Нет заданий';
             
-            // Отрисовка завершенных заданий
-            if (completedTasks.length === 0) {
-                completedList.innerHTML = '<div class="no-tasks">Нет проверенных заданий</div>';
-            } else {
-                completedList.innerHTML = completedTasks.map(task => `
-                    <div class="task-item ${task.status}">
-                        <div class="task-header">
-                            <div class="task-user">${task.user}</div>
-                            <div class="stars-reward">⭐ ${task.stars}</div>
-                        </div>
-                        <div class="task-name">${task.taskName}</div>
-                        <div class="task-time">
-                            Отправлено: ${task.timestamp}<br>
-                            ${task.status === 'approved' ? '✅ Одобрено: ' + task.approvedAt : '❌ Отклонено: ' + task.rejectedAt}
-                        </div>
-                        <div class="task-status ${task.status === 'approved' ? 'status-approved' : 'status-rejected'}">
-                            ${task.status === 'approved' ? 'Одобрено' : 'Отклонено'}
-                        </div>
+            document.getElementById('completed').innerHTML = tasks.completed.map(t => `
+                <div class="task ${t.status}">
+                    <div class="task-header">
+                        <span class="task-user">${t.user}</span>
+                        <span class="task-stars">⭐ ${t.stars}</span>
                     </div>
-                `).join('');
-            }
+                    <div>${t.task}</div>
+                    <div>${t.status === 'approved' ? '✓ Одобрено' : '✗ Отклонено'}</div>
+                </div>
+            `).join('') || 'Нет проверенных';
         }
 
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-theme');
-            this.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
-        });
+        function approve(id) {
+            const tasks = getTasks();
+            const task = tasks.pending.find(t => t.id === id);
+            
+            // Начисляем звезды
+            const users = JSON.parse(localStorage.getItem('users'));
+            users[task.user].stars += task.stars;
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            task.status = 'approved';
+            tasks.completed.push(task);
+            tasks.pending = tasks.pending.filter(t => t.id !== id);
+            saveTasks(tasks);
+            renderTasks();
+        }
 
-        loadData();
+        function reject(id) {
+            const tasks = getTasks();
+            const task = tasks.pending.find(t => t.id === id);
+            task.status = 'rejected';
+            tasks.completed.push(task);
+            tasks.pending = tasks.pending.filter(t => t.id !== id);
+            saveTasks(tasks);
+            renderTasks();
+        }
+
+        checkAuth();
+        renderTasks();
     </script>
 </body>
 </html>
